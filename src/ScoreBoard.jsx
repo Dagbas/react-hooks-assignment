@@ -3,7 +3,19 @@ import { useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Player from "./Player";
 function ScoreBoard() {
- 
+  const [players, setPlayers] = useState([]);
+  const inputRef = useRef();
+
+  function newPlayer() {
+    let playerName = inputRef.current.value || undefined;
+    setPlayers([...players,{
+      name: playerName,
+      id :Date.now(),
+    }
+  ]);
+    inputRef.current.value = "";
+  }
+  
   return (
     <div className="container">
       <div className="row  text-center">
@@ -14,6 +26,7 @@ function ScoreBoard() {
           <div class="input-group mb-3">
             {/* Modify input so that it is either connected to a ref or some kind of input state */}
             <input
+              ref={inputRef}
               type="text"
               class="form-control"
               placeholder="New Player Name"
@@ -21,11 +34,12 @@ function ScoreBoard() {
               aria-describedby="addPlayer"
               required
             />
-            {/* add Add Player event handling to this button */}
+            {/*  Add Player event handling to this button */}
             <button
               class="btn btn-outline-primary"
               type="button"
               id="addPlayer"
+              onClick={newPlayer}
             >
               Add Player
             </button>
